@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.Web", "src\Product\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DDB0A7ED-CE5A-469B-BED3-5DCC78344725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Domain", "Product.Domain\Product.Domain.csproj", "{1A214CED-1855-44C9-A064-FEDF1606EFB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Domain", "src\Product.Domain\Product.Domain.csproj", "{1A214CED-1855-44C9-A064-FEDF1606EFB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Service", "Product.Service\Product.Service.csproj", "{DA4650DB-1501-4569-8423-42FFAFA4CD1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Service", "src\Product.Service\Product.Service.csproj", "{DA4650DB-1501-4569-8423-42FFAFA4CD1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Data", "Product.Data\Product.Data.csproj", "{D6EC5791-C079-48FD-AB29-7769878A2187}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Data", "src\Product.Data\Product.Data.csproj", "{D6EC5791-C079-48FD-AB29-7769878A2187}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
