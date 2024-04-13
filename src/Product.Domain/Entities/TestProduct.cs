@@ -2,7 +2,7 @@
 
 namespace Product.Domain.Entities
 {
-    public class Product : Auditable
+    public class TestProduct : Auditable
     {
         public string Name { get; set; }
         
