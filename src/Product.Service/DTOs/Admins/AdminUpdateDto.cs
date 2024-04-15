@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Product.Domain.Entities;
 using Product.Service.Commons.Attributes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Product.Service.DTOs.Admins
 {
-    public class AdminUpdateDto 
+    public class AdminUpdateDto
     {
         [Required(ErrorMessage = "First Name Required")]
         public string FirstName { get; set; } = string.Empty;
@@ -26,6 +21,8 @@ namespace Product.Service.DTOs.Admins
         [Phone(ErrorMessage = "The phone number was entered incorrectly")]
         public string PhoneNumber { get; set; } = string.Empty;
 
+        public DateTime BirthDate { get; set; }
+
         [Required(ErrorMessage = "Address Required")]
         public string Address { get; set; } = string.Empty;
 
@@ -37,7 +34,8 @@ namespace Product.Service.DTOs.Admins
                 LastName = dto.LastName,
                 Image = dto.ImagePath,
                 PhoneNumber = dto.PhoneNumber,
-                Address = dto.Address
+                Address = dto.Address,
+                BirthDate = dto.BirthDate
             };
         }
     }

@@ -9,5 +9,7 @@ namespace Product.Service.DTOs.Accounts
 
         [Required(ErrorMessage = "Enter a surname!")]
         public string LastName { get; set; } = string.Empty;
+
+        public DateTime BirthDate { get; set; }
     }
 }

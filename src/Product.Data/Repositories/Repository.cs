@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Product.Data.DbContexts;
 using Product.Data.Interfaces.IRepositories;
 using Product.Domain.Commons;
@@ -25,7 +26,7 @@ namespace Product.Data.Repositories
             if (entity is not null)
                 _dbSet.Remove(entity);
         }
-        
+
         public IQueryable<TEntity> SelectAll()
             => _dbSet;
 
@@ -44,6 +45,15 @@ namespace Product.Data.Repositories
         {
             entity.Id = id;
             _dbSet.Update(entity);
+        }
+
+        public EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : Auditable
+        {
+            return _dbContext.Entry(entity);
+        }
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
         }
     }
 }
