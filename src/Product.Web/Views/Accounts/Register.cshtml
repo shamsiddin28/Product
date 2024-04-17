@@ -1,0 +1,69 @@
+﻿@using Product.Service.DTOs.Admins;
+@model AdminRegisterDto
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Create Admin</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="accounts" asp-action="register" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" asp-for="FirstName" class="form-control" id="inputFirstName" placeholder="First Name">
+                            <label for="inputFirstName">First Name</label>
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" asp-for="LastName" class="form-control" id="inputLastName" placeholder="Last Name">
+                            <label for="inputLastName">Last Name</label>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" asp-for="BirthDate" class="form-control" id="inputBirthDate">
+                            <label for="inputBirthDate">Birth Date</label>
+                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" asp-for="Address" class="form-control" id="inputAddress" placeholder="Address">
+                            <label for="inputAddress">Address</label>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" asp-for="PhoneNumber" class="form-control" id="inputPhoneNumber" placeholder="Phone Number">
+                            <label for="inputPhoneNumber">Phone Number</label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" asp-for="Password" class="form-control" id="inputPassword" placeholder="Password">
+                            <label for="inputPassword">Password</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-outline-primary" asp-action="index" asp-controller="admins">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        var passwordInput = document.getElementById('inputPassword');
+        var button = this;
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            button.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            button.textContent = "Show";
+        }
+    });
+</script>

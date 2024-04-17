@@ -1,0 +1,46 @@
+﻿@* @using Product.Service.ViewModels;
+@model AccountBaseViewModel
+
+<div class="d-flex align-items-center">
+    <div class="cursor-pointer symbol symbol-30px symbol-md-40px" data-kt-menu-trigger="click" id="dropdownMenuLink" data-bs-toggle="tooltip" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img alt="Pic" src="~/media/avatars/150-26.jpg" />
+    </div>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <div class="menu-item px-3">
+            <div class="menu-content d-flex align-items-center px-3">
+                <div class="symbol symbol-50px me-5">
+                    @{
+                        if (!String.IsNullOrEmpty(Model.ImagePath))
+                        {
+                            <img src="~/@Model.ImagePath" />
+                        }
+                        else
+                        {
+                            <img alt="Logo" src="~/media/avatars/150-26.jpg" />
+                        }
+                    }
+                </div>
+                <div class="d-flex flex-column">
+                    <div class="fw-bolder d-flex align-items-center fs-5">
+                        @Model.FirstName @Model.LastName
+                    </div>
+                    <div class="fw-bold text-muted text-hover-info fs-7">
+                        @Model.PhoneNumber
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separator my-2"></div>
+        <div class="menu-item px-5">
+            <a asp-controller="admins" asp-action="phoneNumber" asp-route-phoneNumber="@Model.PhoneNumber" class="menu-link px-5 fw-bold text-dark text-hover-info fs-7">Profile</a>
+        </div>
+        <div class="menu-item px-5 my-1">
+            <a asp-controller="admins" asp-action="update" asp-route-adminId="@Model.Id" class="menu-link px-5 fw-bold text-dark text-hover-info fs-7">Settings</a>
+        </div>
+        <div class="menu-item px-5">
+            <a class="menu-link px-5 fw-bold text-dark text-hover-info fs-7" asp-controller="accounts" asp-action="logout">Log Out</a>
+        </div>
+        <div class="separator my-2"></div>
+    </div>
+</div>
+ *@
