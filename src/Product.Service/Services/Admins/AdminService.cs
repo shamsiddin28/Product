@@ -10,6 +10,7 @@ using Product.Service.Interfaces.Admins;
 using Product.Service.Interfaces.Commons;
 using Product.Service.Interfaces.Files;
 using Product.Service.ViewModels.AdminViewModels;
+using System.Net;
 
 namespace Product.Service.Services.Admins
 {
@@ -26,13 +27,22 @@ namespace Product.Service.Services.Admins
             this._fileService = fileService;
         }
 
+        public async Task<AdminViewModel> GetByTokenAsync()
+        {
+            var user = await _repository.FindByIdAsync(long.Parse(_identityService.Id!.Value.ToString()));
+            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found!");
+            var result = (AdminViewModel)(user);
+            return result;
+        }
+
         public async Task<bool> DeleteAsync(long id)
         {
             var admin = await _repository.FindByIdAsync(id);
             if (admin is null) throw new NotFoundException("Admin", $"{id} not found");
+            var deletedImage = await DeleteImageAsync(id);
             _repository.Delete(id);
             int result = await _repository.SaveChangesAsync();
-            return result > 0;
+            return result > 0 && deletedImage;
         }
 
         public async Task<bool> DeleteImageAsync(long adminId)
@@ -41,11 +51,12 @@ namespace Product.Service.Services.Admins
             if (admin is null) throw new NotFoundException("Admin", $"{adminId} not found");
             else
             {
-                await _fileService.DeleteFileAsync(admin.Image!);
+                var deletedImage = await _fileService.DeleteFileAsync(admin.Image!);
+                await _fileService.DeleteStaticFileAsync(admin.Image!);
                 admin.Image = "";
                 _repository.Update(adminId, admin);
                 var res = await _repository.SaveChangesAsync();
-                return res > 0;
+                return res > 0 && deletedImage;
             }
         }
 
@@ -54,7 +65,10 @@ namespace Product.Service.Services.Admins
             var query = _repository.SelectAll();
             if (!string.IsNullOrEmpty(search))
             {
-                query = query.Where(x => x.FirstName.ToLower().StartsWith(search.ToLower()) || x.LastName.ToLower().StartsWith(search.ToLower()) || x.Address.ToLower().StartsWith(search.ToLower()));
+                query = query.Where(x => x.FirstName.ToLower().Contains(search.ToLower())
+                || x.LastName.ToLower().Contains(search.ToLower())
+                || x.Address.ToLower().Contains(search.ToLower())
+                || x.PhoneNumber.Contains(search.ToLower()));
             }
 
             var result = await query.OrderByDescending(x => x.CreatedAt).Select(x => (AdminViewModel)x).ToListAsync();
@@ -96,14 +110,19 @@ namespace Product.Service.Services.Admins
                 admin.PhoneNumber = string.IsNullOrEmpty(adminUpdatedDto.PhoneNumber) ? admin.PhoneNumber : adminUpdatedDto.PhoneNumber;
                 admin.BirthDate = admin.BirthDate;
                 admin.Address = string.IsNullOrEmpty(adminUpdatedDto.Address) ? admin.Address : adminUpdatedDto.Address;
+
+                var deleteOldImage = await _fileService.DeleteFileAsync(admin.Image);
+                var deleteOldImageOnStatic = await _fileService.DeleteStaticFileAsync(admin.Image);
+
                 if (adminUpdatedDto.Image is not null)
                 {
                     admin.Image = await _fileService.UploadImageAsync(adminUpdatedDto.Image);
                 }
+
                 admin.UpdatedAt = TimeHelper.GetCurrentServerTime();
                 _repository.Update(id, admin);
                 var result = await _repository.SaveChangesAsync();
-                return result > 0;
+                return result > 0 && deleteOldImage && deleteOldImageOnStatic;
             }
             else throw new ModelErrorException("", "Not found");
         }
@@ -112,12 +131,14 @@ namespace Product.Service.Services.Admins
         {
             var admin = await _repository.FindByIdAsync(id);
             var updateImage = await _fileService.UploadImageAsync(formFile);
+            var deleteOldImage = await _fileService.DeleteFileAsync(admin.Image);
+            var deleteOldImageOnStatic = await _fileService.DeleteStaticFileAsync(admin.Image);
             var adminUpdatedDto = new AdminUpdateDto()
             {
                 ImagePath = updateImage
             };
             var result = await UpdateAsync(id, adminUpdatedDto);
-            return result;
+            return result && deleteOldImage && deleteOldImageOnStatic;
         }
 
         public async Task<bool> UpdatePasswordAsync(long id, PasswordUpdateDto dto)

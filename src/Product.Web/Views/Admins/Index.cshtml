@@ -1,0 +1,171 @@
+﻿@model IEnumerable<Product.Service.ViewModels.AdminViewModels.AdminViewModel>
+@{
+	ViewData["Title"] = "Admins";
+}
+
+<h3 class="text-center mb-5">@ViewData["Title"]</h3>
+
+@if (TempData["InfoMessage"] != null)
+{
+	<div class='alert alert-info alert-dismissible fade show' role='alert'>
+		<strong>Information ! </strong> @TempData["InfoMessage"]
+		<button type="button" class="close" data-ds-dismiss='alert' aria-label="Close">
+			<span>&times;</span>
+		</button>
+	</div>
+}
+else if (TempData["SuccessMessage"] != null)
+{
+	<div class='alert alert-success alert-dismissible fade show' role='alert'>
+		<strong>Success ! </strong> @TempData["SuccessMessage"]
+		<button type="button" class="close" data-ds-dismiss='alert' aria-label="Close">
+			<span>&times;</span>
+		</button>
+	</div>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+	<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+		<strong>Error ! </strong> @TempData["ErrorMessage"]
+		<button type="button" class="close" data-ds-dismiss='alert' aria-label="Close">
+			<span>&times;</span>
+		</button>
+	</div>
+}
+
+
+<div class="row mb-5">
+	<div class="col">
+		<a class='btn btn-primary' asp-action="Register" asp-controller="Accounts">Register Admin</a>
+	</div>
+	<div class="col">
+	</div>
+</div>
+
+<div class="row mb-5">
+	@using (Html.BeginForm("Index", "Admins", FormMethod.Get))
+	{
+		<table>
+			<tr>
+				<td>
+					<span><b>Search By:</b></span>
+					@Html.RadioButton("searchBy", "FirstName")
+					<text>FirstName</text>
+					@Html.RadioButton("searchBy", "Phone Number")
+					<text>Phone Number</text>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@Html.TextBox("searchValue", null, new { Class = "form-control", placeholder = "Enter admin's properties.." })
+				</td>
+				<td>
+					&nbsp;
+				</td>
+				<td>
+					<input type="submit" value="Search" class="btn btn-success" />
+				</td>
+			</tr>
+		</table>
+	}
+</div>
+
+<table class="table table-bordered table-responsive table-hover">
+	<thead>
+		<tr class="table-active">
+			<th>
+				@Html.DisplayNameFor(model => model.FirstName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.LastName)
+			</th>
+			<th>
+				@Html.DisplayName("Image")
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.BirthDate)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Address)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PhoneNumber)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Role)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CreatedAt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.UpdatedAt)
+			</th>
+			<th>
+				Action
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			@foreach (var admin in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(model => admin.FirstName)
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.LastName)
+					</td>
+					<td>
+						@if (string.IsNullOrEmpty(admin.ImagePath))
+						{
+							<img src="~/StaticFilesProducts/Media/Avatars/150-26.jpg" class="rounded-circle" style="max-width: 100px; max-height: 100px;" />
+						}
+						else
+						{
+							<img src="~/StaticFilesProducts/@admin.ImagePath" class="rounded-circle" style="max-width: 100px; max-height: 100px;" />
+						}
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.BirthDate)
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.Address)
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.PhoneNumber)
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.Role)
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.CreatedAt)
+					</td>
+					<td>
+						@Html.DisplayFor(model => admin.UpdatedAt)
+					</td>
+					<td style="white-space:nowrap">
+						<div class="btn-group btn-group-sm">
+							<a asp-action="Update" asp-route-id="@admin.Id" class="btn btn-primary btn-sm">Update</a>
+							<a asp-action="Remove" asp-route-id="@admin.Id" class="btn btn-danger btn-sm">Remove</a>
+						</div>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="2">
+					<div>
+						Admins not available in the database
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+
+</table>
+
+

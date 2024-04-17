@@ -17,12 +17,18 @@ namespace Product.Service.Services.Products
 {
     public class ProductService : IProductService
     {
+        public string WebRootPath;
+
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
         private readonly IRepository<TestProduct> _repository;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public ProductService(IRepository<TestProduct> repository, IFileService fileService, IMapper mapper, IHostingEnvironment hostingEnvironment)
+        public ProductService(
+            IRepository<TestProduct> repository,
+            IFileService fileService,
+            IMapper mapper,
+            IHostingEnvironment hostingEnvironment)
         {
             _mapper = mapper;
             _repository = repository;
@@ -53,10 +59,25 @@ namespace Product.Service.Services.Products
 
         public async Task<byte[]> DownloadAsync(string videoFilePath)
         {
-            var videoPath = Path.Combine(_hostingEnvironment.WebRootPath, videoFilePath);
+            var wwwroot = "C:\\Users\\shams\\Desktop\\Test\\Product\\src\\Product.Web\\wwwroot\\";
+            if (_hostingEnvironment.WebRootPath != null)
+            {
+                var videoPath = Path.Combine(_hostingEnvironment.WebRootPath, videoFilePath);
+                if (File.Exists(videoPath))
+                    return await File.ReadAllBytesAsync(videoPath);
+            }
+            var video = Path.Combine(wwwroot, videoFilePath);
+            if (File.Exists(video))
+                return await File.ReadAllBytesAsync(video);
+
+            throw new FileNotFoundException();
+        }
+
+        public async Task<byte[]> DownloadOnStaticFileAsync(string videoFilePath)
+        {
+            var videoPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFilesProducts", videoFilePath);
             if (File.Exists(videoPath))
                 return await File.ReadAllBytesAsync(videoPath);
-
             throw new FileNotFoundException();
         }
 
@@ -89,23 +110,28 @@ namespace Product.Service.Services.Products
         public async Task<bool> UpdateVideoAsync(long id, IFormFile formFile)
         {
             var product = await _repository.FindByIdAsync(id);
-            var updateImage = await _fileService.UploadImageAsync(formFile);
+            if (product is null) throw new NotFoundException("Product", $"{id} not found");
+
+            var updateVideo = await _fileService.UploadVideoAsync(formFile);
+            var deleteOldVideo = await _fileService.DeleteFileAsync(product.VideoData);
+            var deleteOnStaticOldVideo = await _fileService.DeleteStaticFileAsync(product.VideoData);
             var productForUpdateDto = new ProductForUpdateDto()
             {
-                VideoFilePath = updateImage
+                VideoFilePath = updateVideo
             };
             var result = await UpdateAsync(id, productForUpdateDto);
-            return result is not null ? true : false;
+            return result is not null && deleteOnStaticOldVideo && deleteOldVideo && updateVideo != null ? true : false;
         }
 
         public async Task<bool> RemoveAsync(long id)
         {
             var product = await _repository.FindByIdAsync(id);
             if (product is null) throw new NotFoundException("Product", $"{id} not found");
+            var deletedVideo = await DeleteVideoAsync(id);
             _repository.Delete(id);
             int result = await _repository.SaveChangesAsync();
             product.IsDeleted = true;
-            return result > 0;
+            return result > 0 && deletedVideo;
         }
 
         public async Task<bool> DeleteVideoAsync(long productId)
@@ -115,6 +141,7 @@ namespace Product.Service.Services.Products
             else
             {
                 await _fileService.DeleteFileAsync(product.VideoData!);
+                await _fileService.DeleteStaticFileAsync(product.VideoData!);
                 product.VideoData = "";
                 _repository.Update(productId, product);
                 var res = await _repository.SaveChangesAsync();
@@ -188,6 +215,14 @@ namespace Product.Service.Services.Products
             otp = new string(otpArray);
 
             return otp;
+        }
+
+        public async Task<ProductViewModel> RetrieveBySortNumberAsync(long sortNumber)
+        {
+            var product = await _repository.SelectAll().Where(p => p.SortNumber == sortNumber).FirstOrDefaultAsync();
+            if (product is null) throw new NotFoundException("Product", $"{sortNumber} not found");
+            var productView = (ProductViewModel)product;
+            return productView;
         }
     }
 }

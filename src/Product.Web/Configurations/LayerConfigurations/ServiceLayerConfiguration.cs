@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Product.Data.Interfaces.IRepositories;
+﻿using Product.Data.Interfaces.IRepositories;
 using Product.Data.Repositories;
 using Product.Domain.Entities;
 using Product.Service.Interfaces.Accounts;
@@ -13,7 +12,6 @@ using Product.Service.Services.Admins;
 using Product.Service.Services.Commons;
 using Product.Service.Services.Files;
 using Product.Service.Services.Products;
-using Product.Web.Areas;
 
 namespace Product.Web.Configurations.LayerConfigurations
 {

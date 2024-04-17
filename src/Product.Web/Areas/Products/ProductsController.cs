@@ -17,7 +17,7 @@ namespace Product.Web.Areas.Products
             _webHostEnvironment = webHostEnvironment;
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromForm] ProductForCreationDto dto)
             => Ok(await this._productService.CreateAsync(dto));
@@ -38,12 +38,12 @@ namespace Product.Web.Areas.Products
         public async Task<IActionResult> GetByPropertyAsync([FromRoute(Name = "propertyName")] string propertyName)
             => Ok(await this._productService.SearchByProperty(propertyName));
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin , superadmin")]
         [HttpDelete("DeleteProductById/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
             => Ok(await this._productService.RemoveAsync(id));
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superadmin")]
         [HttpDelete("DeleteVideoById/{id}")]
         public async Task<IActionResult> DeleteVideoAsync([FromRoute(Name = "id")] long id)
             => Ok(await this._productService.DeleteVideoAsync(id));
@@ -54,14 +54,20 @@ namespace Product.Web.Areas.Products
             return File(await this._productService.DownloadAsync(videoPartPath), "application/octet-stream", videoPartPath);
         }
 
-        [Authorize(Roles = "admin")]
+        [HttpGet("DownloadOnStaticFileByVideoPartPath/{videoPartPath}")]
+        public async Task<IActionResult> DownloadOnStaticFileAsync(string videoPartPath)
+        {
+            return File(await this._productService.DownloadOnStaticFileAsync(videoPartPath), "application/octet-stream", videoPartPath);
+        }
+
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPut("UpdateProductById/{id}")]
         public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromForm] ProductForUpdateDto dto)
             => Ok(await this._productService.UpdateAsync(id, dto));
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPut("UpdateVideoById/{id}")]
-        public async Task<IActionResult> PutVideoAsync([FromRoute(Name = "id")] long id, [FromForm] IFormFile formFile)
+        public async Task<IActionResult> PutVideoAsync([FromRoute(Name = "id")] long id, IFormFile formFile)
             => Ok(await this._productService.UpdateVideoAsync(id, formFile));
 
         [HttpGet("OpenVideoStreamAsync/{videoPartPath}")]

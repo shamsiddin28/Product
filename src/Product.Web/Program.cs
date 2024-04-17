@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Product.Service.Helpers;
 using Product.Web.Configurations.LayerConfigurations;
@@ -16,7 +17,7 @@ builder.Services.AddService();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v2", new OpenApiInfo { Title = "RegistonAPI.swagger", Version = "v2" });
+    options.SwaggerDoc("v2", new OpenApiInfo { Title = "TestProductAPI.swagger", Version = "v2" });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -52,6 +53,10 @@ builder.Logging.AddSerilog(logger);
 
 var app = builder.Build();
 
+
+WebHostEnviromentHelper.WebRootPath = app.Environment.WebRootPath;
+//WebHostEnviromentHelper.WebRootPath = Path.GetFullPath("wwwroot");
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -68,9 +73,15 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "StaticFilesProducts")),
+    RequestPath = "/StaticFilesProducts"
+});
 
+
+app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -86,7 +97,6 @@ app.UseStatusCodePages(async context =>
         context.HttpContext.Response.Redirect("login");
     }
 });
-
 app.UseAuthentication();
 app.UseAuthorization();
 

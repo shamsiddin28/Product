@@ -58,7 +58,25 @@ namespace Product.Service.Services.Accounts
                     string token = "";
                     if (admin.PhoneNumber != null)
                     {
+                        if (admin.AdminRole == Role.Admin)
+                        {
+                            token = _authService.GenerateToken(admin, "admin");
+                            return token;
+                        }
+                        else if (admin.AdminRole == Role.SuperAdmin)
+                        {
+                            token = _authService.GenerateToken(admin, "superadmin");
+                            return token;
+                        }
+                    }
+                    if (admin.AdminRole == Role.Admin)
+                    {
                         token = _authService.GenerateToken(admin, "admin");
+                        return token;
+                    }
+                    else if (admin.AdminRole == Role.SuperAdmin)
+                    {
+                        token = _authService.GenerateToken(admin, "superadmin");
                         return token;
                     }
                     token = _authService.GenerateToken(admin, "admin");

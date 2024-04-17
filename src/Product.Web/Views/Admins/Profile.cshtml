@@ -1,0 +1,59 @@
+﻿@using Product.Service.ViewModels.AdminViewModels;
+@model AdminViewModel
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header">
+            <h5 class="card-title">Admin Profile</h5>
+        </div>
+        <div class="form-group">
+            @if (string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="~/StaticFilesProducts/Media/Avatars/150-26.jpg" class="rounded-circle" style="max-width: 100px; max-height: 100px;" />
+            }
+            else
+            {
+                <img src="~/StaticFilesProducts/@Model.ImagePath" class="rounded-circle" style="max-width: 100px; max-height: 100px;" />
+            }    
+            <span asp-validation-for="ImagePath" class="text-danger"></span>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" class="form-control" value="@Model.FirstName" readonly>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="lastName" class="form-control" value="@Model.LastName" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="BirthDate">BirthDate:</label>
+                <input type="datetime" id="BirthDate" class="form-control" value="@Model.BirthDate" readonly>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" class="form-control" value="@Model.PhoneNumber" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Role">Role:</label>
+                <input type="text" id="role" class="form-control" value="@Model.Role" readonly>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea id="address" class="form-control" readonly>@Model.Address</textarea>
+            </div>
+
+            <div class="btn-group btn-group-sm">
+                <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">Update</a>
+                <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Admins" role="button">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>

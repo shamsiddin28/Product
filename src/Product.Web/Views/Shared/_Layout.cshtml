@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Product.styles.css" asp-append-version="true" />
+
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Product</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,13 +22,40 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="Register">SignUp</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Accounts" asp-action="LogOut">LogOut</a>
                         </li>
                     </ul>
                 </div>
+                <div class="dropdown" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Control Product
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-primary">
+                                <li><a class="dropdown-item" href="/Products/Create">Create</a></li>
+                                <li><a class="dropdown-item" href="/Products/Index">All Products</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown" id="navbarNavDarkDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Profile
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-primary">
+                                <li><a class="dropdown-item" asp-controller="Admins" asp-action="Profile">My Profile</a></li>
+                                <li><a class="dropdown-item" asp-controller="Admins" asp-action="Index">All Admins</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </nav>
     </header>
@@ -47,3 +76,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

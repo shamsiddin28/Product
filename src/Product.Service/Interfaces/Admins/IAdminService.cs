@@ -12,6 +12,8 @@ namespace Product.Service.Interfaces.Admins
 
         Task<List<AdminViewModel>> GetAllAsync();
 
+        Task<AdminViewModel> GetByTokenAsync();
+
         Task<AdminViewModel> GetByIdAsync(long id);
 
         Task<bool> UpdateAsync(long id, AdminUpdateDto adminUpdatedDto);

@@ -11,7 +11,9 @@ namespace Product.Service.Interfaces.Products
         Task<bool> RemoveAsync(long id);
         Task<bool> DeleteVideoAsync(long productId);
         Task<byte[]> DownloadAsync(string videoFilePath);
+        Task<byte[]> DownloadOnStaticFileAsync(string videoFilePath);
         Task<ProductViewModel> RetrieveByIdAsync(long id);
+        Task<ProductViewModel> RetrieveBySortNumberAsync(long sortNumber);
         Task<List<ProductViewModel>> RetrieveAllProductsAsync();
         Task<bool> UpdateVideoAsync(long id, IFormFile formFile);
         Task<ProductViewModel> CreateAsync(ProductForCreationDto dto);

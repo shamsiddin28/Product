@@ -18,7 +18,7 @@ namespace Product.Web.Controllers.Accounts
         }
 
         [HttpGet("register")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, superadmin")]
         public ViewResult Register() => View("Register");
 
         [HttpPost("register")]
@@ -55,15 +55,21 @@ namespace Product.Web.Controllers.Accounts
                         HttpOnly = true,
                         SameSite = SameSiteMode.Strict
                     });
+                    TempData["SuccessMessage"] = $"You have successfully entered the admin panel";
+
                     return RedirectToAction("Index", "Products", new { area = "" });
                 }
                 catch (ModelErrorException modelError)
                 {
+                    TempData["InfoMessage"] = $"You have entered an incorrect password or login!";
+                    TempData["ErrorMessage"] = "An error occurred: " + modelError.Message;
                     ModelState.AddModelError(modelError.Property, modelError.Message);
                     return Login();
                 }
-                catch
+                catch(Exception ex)
                 {
+                    TempData["ErrorMessage"] = "An error occurred: " + ex.Message;
+
                     return Login();
                 }
             }

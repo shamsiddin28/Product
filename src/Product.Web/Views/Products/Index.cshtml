@@ -59,7 +59,7 @@ else if (TempData["ErrorMessage"] != null)
 			</tr>
 			<tr>
 				<td>
-					@Html.TextBox("searchValue", null, new { Class = "form-control", placeholder = "Enter Product Name" })
+					@Html.TextBox("searchValue", null, new { Class = "form-control", placeholder = "Enter product's properties.." })
 				</td>
 				<td>
 					&nbsp;
@@ -124,7 +124,7 @@ else if (TempData["ErrorMessage"] != null)
 					</td>
 					<td>
 						<video controls width="320" height="180">
-							<source src="/@product.VideoData" type="video/mp4">
+							<source src="~/StaticFilesProducts/@product.VideoData" type="video/mp4">
 							Your browser does not support the video tag.
 						</video>
 					</td>
@@ -156,3 +156,5 @@ else if (TempData["ErrorMessage"] != null)
 	</tbody>
 
 </table>
+
+

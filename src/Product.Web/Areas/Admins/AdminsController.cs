@@ -40,7 +40,7 @@ namespace Product.Web.Areas.Admins
             => Ok(await this._adminService.UpdateAsync(id, dto));
 
         [HttpPut("UpdateImageById/{id}")]
-        public async Task<IActionResult> PutVideoAsync([FromRoute(Name = "id")] long id, [FromForm] IFormFile formFile)
+        public async Task<IActionResult> PutVideoAsync([FromRoute(Name = "id")] long id, IFormFile formFile)
             => Ok(await this._adminService.UpdateImageAsync(id, formFile));
 
         [HttpDelete("DeleteAdminById/{id}")]

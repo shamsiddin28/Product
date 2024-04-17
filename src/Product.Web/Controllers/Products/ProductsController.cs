@@ -6,7 +6,7 @@ using Product.Service.ViewModels.ProductViewModels;
 
 namespace Product.Web.Controllers.Products
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, superadmin")]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
@@ -33,6 +33,18 @@ namespace Product.Web.Controllers.Products
         }
 
         [HttpGet]
+        public async Task<long> GetProductBySortNumber(int sortNumber)
+        {
+            var product = await _productService.RetrieveBySortNumberAsync(sortNumber);
+            if (product is not null)
+            {
+                //return View("Update", product.Id);
+                return product.Id;
+            }
+            else return 0;
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -41,37 +53,55 @@ namespace Product.Web.Controllers.Products
         [HttpPost]
         public async Task<IActionResult> Create(ProductForCreationDto dto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var result = await _productService.CreateAsync(dto);
-                if (result is not null)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Index", "Products", new { area = "" });
+                    var result = await _productService.CreateAsync(dto);
+                    if (result is not null)
+                    {
+                        return RedirectToAction("Index", "Products", new { area = "" });
+                    }
+                    else
+                    {
+                        return Create();
+                    }
                 }
-                else
-                {
-                    return Create();
-                }
+                else return Create();
+
             }
-            else return Create();
+            catch (Exception ex)
+            {
+                TempData["InfoMessage"] = $"{ex.Message}";
+                throw;
+            }
         }
 
         [HttpGet]
         public async Task<ViewResult> Update(long id)
         {
-            var admin = await _productService.RetrieveByIdAsync(id);
-            var adminUpdate = new ProductForUpdateDto()
+            try
             {
-                Name = admin.Name,
-                Description = admin.Description,
-                VideoFilePath = admin.VideoData
-            };
-            ViewBag.CreatedAt = admin.CreatedAt;
-            ViewBag.SortNumber = admin.SortNumber;
-            ViewBag.UpdatedAt = admin.UpdatedAt;
-            ViewBag.VideoData = admin.VideoData;
+                var admin = await _productService.RetrieveByIdAsync(id);
+                var adminUpdate = new ProductForUpdateDto()
+                {
+                    Name = admin.Name,
+                    Description = admin.Description,
+                    VideoFilePath = admin.VideoData
+                };
+                ViewBag.CreatedAt = admin.CreatedAt;
+                ViewBag.SortNumber = admin.SortNumber;
+                ViewBag.UpdatedAt = admin.UpdatedAt;
+                ViewBag.VideoData = admin.VideoData;
 
-            return View("Update", adminUpdate);
+                return View("Update", adminUpdate);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["InfoMessage"] = $"{ex.Message}";
+                throw;
+            }
         }
 
         [HttpPost]

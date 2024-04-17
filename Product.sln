@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.Service", "src\Prod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Product.Data", "src\Product.Data\Product.Data.csproj", "{D6EC5791-C079-48FD-AB29-7769878A2187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.TelegramBot", "src\Product.TelegramBot\Product.TelegramBot.csproj", "{DE1925ED-A4EC-47A2-9A59-5AF83D835FA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.TelegramBot", "src\Product.TelegramBot\Product.TelegramBot.csproj", "{00CDD3C7-212C-4A4D-BA84-C2341C48CAAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,10 @@ Global
 		{D6EC5791-C079-48FD-AB29-7769878A2187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6EC5791-C079-48FD-AB29-7769878A2187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6EC5791-C079-48FD-AB29-7769878A2187}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE1925ED-A4EC-47A2-9A59-5AF83D835FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE1925ED-A4EC-47A2-9A59-5AF83D835FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE1925ED-A4EC-47A2-9A59-5AF83D835FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE1925ED-A4EC-47A2-9A59-5AF83D835FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00CDD3C7-212C-4A4D-BA84-C2341C48CAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00CDD3C7-212C-4A4D-BA84-C2341C48CAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00CDD3C7-212C-4A4D-BA84-C2341C48CAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00CDD3C7-212C-4A4D-BA84-C2341C48CAAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,7 +50,7 @@ Global
 		{1A214CED-1855-44C9-A064-FEDF1606EFB5} = {DDB0A7ED-CE5A-469B-BED3-5DCC78344725}
 		{DA4650DB-1501-4569-8423-42FFAFA4CD1E} = {DDB0A7ED-CE5A-469B-BED3-5DCC78344725}
 		{D6EC5791-C079-48FD-AB29-7769878A2187} = {DDB0A7ED-CE5A-469B-BED3-5DCC78344725}
-		{DE1925ED-A4EC-47A2-9A59-5AF83D835FA8} = {DDB0A7ED-CE5A-469B-BED3-5DCC78344725}
+		{00CDD3C7-212C-4A4D-BA84-C2341C48CAAF} = {DDB0A7ED-CE5A-469B-BED3-5DCC78344725}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA3ECBC1-A1F4-4F0E-8983-66370D693DBF}

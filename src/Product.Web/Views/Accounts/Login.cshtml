@@ -4,6 +4,68 @@
     Layout = "_AccountLayout.cshtml";
 }
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div id="infoAlert" class='alert alert-info alert-dismissible fade show' role='alert'>
+        <strong>Information ! </strong> @TempData["InfoMessage"]
+        <button type="button" class="close" data-ds-dismiss='alert' aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+
+    <script>
+        // Automatically hide the success message after 3 seconds
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#infoAlert").fadeOut("slow");
+            }, 3000);
+        });
+    </script>
+}
+else if (TempData["SuccessMessage"] != null)
+{
+    <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success ! </strong> @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss='alert' aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+
+    <script>
+        // Automatically hide the success message after 3 seconds
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#successAlert").fadeOut("slow");
+            }, 3000);
+        });
+    </script>
+}
+else if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorAlert" class='alert alert-danger alert-dismissible fade show' role='alert'>
+        <strong>Error ! </strong> @TempData["ErrorMessage"]
+        <button type="button" class="close" data-ds-dismiss='alert' aria-label="Close">
+            <span>&times;</span>
+        </button>
+    </div>
+
+    <script>
+        // Automatically hide the success message after 3 seconds
+        $(document).ready(function () {
+            setTimeout(function () {
+                $("#errorAlert").fadeOut("slow");
+            }, 3000);
+        });
+    </script>
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +122,25 @@
                 .form-group input[type="submit"]:hover {
                     background-color: #0056b3;
                 }
+
+        /* Style for the show/hide password button */
+        .toggle-password {
+            position: relative;
+            margin-left: -25px;
+            margin-top: -30px;
+            cursor: pointer;
+        }
+
+            .toggle-password img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 20px;
+                height: 20px;
+            }
     </style>
+
 </head>
 <body>
     <div class="login-container">
@@ -83,3 +163,4 @@
     </div>
 </body>
 </html>
+

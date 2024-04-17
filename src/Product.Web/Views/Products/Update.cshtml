@@ -54,14 +54,14 @@ else if (TempData["ErrorMessage"] != null)
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">SortNumber</label>
                 <div class="col-sm-8">
-                    <input class="form-control" type="text" value="@ViewBag.SortNumber" disabled>
+                    <input class="form-control" type="text" value="@ViewBag.SortNumber" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">Old Video</label>
                 <div class="col-sm-8">
                     <video controls width="320" height="180">
-                        <source src="/@ViewBag.VideoData" type="video/mp4">
+                        <source src="~/StaticFilesProducts/@ViewBag.VideoData" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -76,13 +76,13 @@ else if (TempData["ErrorMessage"] != null)
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">CreatedAt</label>
                 <div class="col-sm-8">
-                    <input class="form-control" type="datetime" value="@ViewBag.CreatedAt" disabled>
+                    <input class="form-control" type="datetime" value="@ViewBag.CreatedAt" readonly>
                 </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-4 col-form-label">UpdatedAt</label>
                 <div class="col-sm-8">
-                    <input class="form-control" type="datetime" value="@ViewBag.UpdatedAt" disabled>
+                    <input class="form-control" type="datetime" value="@ViewBag.UpdatedAt" readonly>
                 </div>
             </div>
             <div class="row mb-3">
